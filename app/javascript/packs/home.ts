@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Webcam from 'react-webcam';
 
 interface Props {}
 interface State {}
@@ -9,10 +8,18 @@ export default class home extends Component<Props, State> {
     super();
     this.webcamRef = React.createRef(null);
   }
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    const constraints = {
+      video: { width: 300 },
+    };
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((stream) => (this.webcamRef.current.srcObject = stream));
+  };
   render() {
     return (
       <div>
+        <video ref={this.webcamRef} autoPlay></video>
         <form onSubmit={this.handleSubmit}>
           <input type="text" />
           <button>ok</button>
@@ -25,4 +32,3 @@ export default class home extends Component<Props, State> {
     alert('test');
   };
 }
-//<Webcam height={300} ref={this.webcamRef} />
